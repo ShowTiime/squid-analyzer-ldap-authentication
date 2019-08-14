@@ -1,0 +1,1 @@
+# squid-analyzer-ldap-authenticationn
