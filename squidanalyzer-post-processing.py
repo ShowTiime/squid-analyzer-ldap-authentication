@@ -9,7 +9,7 @@ address = '$SERVER_LDAP_IP'
 user = '$USER@$DOMAIN'
 password = '$PASSWORD'
 base1 = "cn=Users, dc=$DOMAIN, dc=$SUB_DOMAIN"
-# base2 = "ou=Admins, dc=$DOMAIN, dc=$SUB_DOMAIN""
+base2 = "ou=Admins, dc=$DOMAIN, dc=$SUB_DOMAIN"
 
 conn = ldap.initialize('ldap://' + address)
 conn.protocol_version = 3
@@ -17,7 +17,7 @@ conn.set_option(ldap.OPT_REFERRALS, 0)
 conn.simple_bind_s(user, password)
 
 resultados1 = conn.search_s(base1, ldap.SCOPE_SUBTREE, '(displayName=*)', ['displayName', 'cn'])
-# resultados2 = conn.search_s(base2, ldap.SCOPE_SUBTREE, '(displayName=*)', ['displayName', 'cn'])
+resultados2 = conn.search_s(base2, ldap.SCOPE_SUBTREE, '(displayName=*)', ['displayName', 'cn'])
 
 userAliases = {}
 for i in resultados1:
@@ -30,71 +30,34 @@ for i in resultados2:
   if (cn.isdigit()):
     userAliases[i[1]['cn'][0]] = i[1]['displayName'][0]
 
-#def findTitle(name, nameToTitle):
-#  for i in range(len(nameToTitle)):
-#    if (name == nameToTitle[i][0]):
-#      return nameToTitle[i][1]
-#  return 'title'
+# HTML and REGEX code to create a new column in SquidAnalyzer UI
+column = "Login</th>\n<th>Users</th>"
+columnregex = r"Users</th>"
 
-#Carregando arquivo Nome->Titulo
-#nameToTitle = []
-
-#file = open('/etc/squidanalyzer/user-aliases', 'r')
-#userAliases = file.readlines()
-#file.close()
-
-#for i in range(len(userAliases)):
-#  userAliases[i] = userAliases[i].rstrip('\n')
-
-#for i in userAliases:
-#  nameToTitle.append(i.split('\t', 1))
-
-# Codigo HTML e regex para a criacao da nova coluna
-collunm = "Login</th>\n<th>Users</th>"
-collunmregex = r"Users</th>"
-
-# Codigo HTML e regex para a criacao e preenchimento da tabela
+# HTML and REGEX code to create and add elements to the table in SquidAnalyzer UI
 login = "</a></td>\n<td><a>NOME-AQUI</a></td>"
 loginregex = r"</a></td>\n"
 loginNameRegex = r"NOME-AQUI"
 
-# Regex para localizar os titulos
-#regex = r"(?:\/)(\d{12})(?:\/)"
-
-# Array que contem os titulos dos usuarios
-#titulos = []
-
-# Pegando arquivo user.html do squidanalyzer e adicionando a variavel html
+# Taking user.html file from SquidAnalyzer and adding to the html variable
 arq = open('/var/www/squidanalyzer/2019/user.html', 'r')
 html = arq.read()
 arq.close()
 
-# Aplicacao da regex para encontrar os titulos no codigo  HTML
-#matches = re.finditer(regex, html, re.MULTILINE)
-#i = 0
-
-#for matchNum, match in enumerate(matches, start=1):
-#
-#  for groupNum in range(0, len(match.groups())):
-#    groupNum = groupNum + 1#
-     # Adicionando os titulos para o array de titulos
-#    titulos.append(match.group(groupNum))
-#    i += 1
-
-# Verificando a necessidade de pos processamento
+# Verifying the post-processing necessity
 test_login_regex = r"Login</th>"
 if (not re.search(test_login_regex, html)):
 
-  # Localizando e substituindo o codigo HTML para a criacao da nova coluna na tabela
+  # Localizing and substituting the HTML code to create the new table's column
   html = re.sub(loginregex, login, html)
-  html = re.sub(collunmregex, collunm, html)
+  html = re.sub(columnregex, column, html)
   
-  # Atualizando o arquivo de testes html.html
+  # Updatind the test file html.html
   arq = open('/var/www/html.html', 'w')
   arq.write(html)
   arq.close()
   
-  # Abrindo arquivo html.html e separando as linhas
+  # Opening html.html file and separating the lines
   arq = open('/var/www/html.html', 'r')
   html = arq.readlines()
   arq.close()
