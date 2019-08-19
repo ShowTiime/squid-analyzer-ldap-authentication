@@ -6,7 +6,7 @@ import ldif
 import sys
 
 address = '$SERVER_LDAP_IP'
-user = '$USER@$DOMAIN'
+user = '$USER@$COMPLETE_DOMAIN'
 password = '$PASSWORD'
 base1 = "cn=Users, dc=$DOMAIN, dc=$SUB_DOMAIN"
 base2 = "ou=Admins, dc=$DOMAIN, dc=$SUB_DOMAIN"
