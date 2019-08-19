@@ -13,7 +13,7 @@ You only need to replace the corresponding $VARIABLES with the appropriate value
 * $DOMAIN = Part of the domain's name (e.g. 'local')
 * $SUB_DOMAIN = Another parts of the domains names (e.g. 'domain')
 
- > In the variables **base1** and **base2** you can add how many subdomains you have. I'll give you a example. My domain is 'local.domain.com' and the CN 'Users' contain all the network users. So, my variable **base1** will be like:
- 
- base1 = "cn=Users, dc=local, dc=domain, dc=com"
+> In the variables **base1** and **base2** you can add how many subdomains you have. I'll give you a example. My domain is 'local.domain.com' and the CN 'Users' contain all the network users. So, my variable **base1** will be like:
+>  
+> base1 = "cn=Users, dc=local, dc=domain, dc=com"
  
